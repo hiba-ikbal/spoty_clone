@@ -33,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
     Intent intentPlay;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,9 +71,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         playerMusic.onStop();
     }
-    private void connected() {
 
-    }
 
 
     private class Ecouteur implements View.OnClickListener {
@@ -105,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeSong() {
-        //changer les infos de la chanson
+
     }
+
+
 }

@@ -1,12 +1,19 @@
 package com.example.spotifyclone;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.protocol.client.CallResult;
+import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
+
+import java.io.IOException;
 
 public class PlayerMusic {
     private static PlayerMusic instance;
@@ -15,11 +22,16 @@ public class PlayerMusic {
     private  String REDIRECT_URI;
     private SpotifyAppRemote mSpotifyAppRemote;
     boolean musicBound;
+    Track track;
+    PlayerState playerState;
+    Context context;
+
 
     public PlayerMusic(Context context){
         this.CLIENT_ID = "833df7f639984a518117e9edab32a480";
         this.REDIRECT_URI = "com.example.spotifyclone://callback";
         this.musicBound = false;
+        this.context = context;
         onStart(context);
     }
     public static PlayerMusic getInstance(Context context)
@@ -75,29 +87,42 @@ public class PlayerMusic {
 
         SpotifyAppRemote.disconnect(mSpotifyAppRemote);
     }
-    public Artiste getArtiste(String id){
+    public Artiste getArtiste(String id) throws IOException {
         // creer un artiste tempo
         Artiste artistetmp = new Artiste();
         //get l artiste sur spoti
         mSpotifyAppRemote.getPlayerApi().getPlayerState();
         //set les valeurs de artistes tmp par arpp a spotify
+        artistetmp.setAlbum(playerState.track.album.name);
+        artistetmp.setNom(playerState.track.artist.name);
+        artistetmp.setTitre(playerState.track.name);
+        artistetmp.setDuration((int) playerState.track.duration);
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(playerState.track.imageUri.raw));
+        artistetmp.setImage(bitmap);
+
+
         //artistetmp.set...
         return artistetmp;
     }
 
 
     public void next() {
+        mSpotifyAppRemote.getPlayerApi().skipNext();
     }
 
     public boolean pause() {
-
+        mSpotifyAppRemote.getPlayerApi().pause();
         return false;
     }
 
     public void prev() {
+        mSpotifyAppRemote.getPlayerApi().skipPrevious();
     }
 
     public void play() {
+        mSpotifyAppRemote.getPlayerApi().resume();
     }
+
+
 }
 

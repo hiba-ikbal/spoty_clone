@@ -15,6 +15,7 @@ import android.widget.SimpleAdapter;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Set;
 import java.util.Vector;
@@ -34,7 +35,11 @@ public class ArtisteList extends AppCompatActivity {
         //ajouter des elements dans le hashtable
         liste = new Vector<Hashtable<String,Object>>();
         playerMusic = PlayerMusic.getInstance(this);//pour initialiser mon singleton
-        choixArtiste.add(playerMusic.getArtiste("1QAJqy2dA3ihHBFIHRphZj"));
+        try {
+            choixArtiste.add(playerMusic.getArtiste("1QAJqy2dA3ihHBFIHRphZj"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
     void UpdateListe(Bundle savedInstanceState){
@@ -52,7 +57,7 @@ public class ArtisteList extends AppCompatActivity {
         // Creer un tab de string avc l<ordre que je veux + tab de int avc R.id du nv layout cre
         String[] from = {"Bitmap","Titre","Album","Artiste"};
         int[] to = {R.id.img_album_lay,R.id.Titre_txt_lay,R.id.Album_txt_lay,R.id.Nom_txt_lay};
- //transformer la bitmap en drawable(setViewValue)
+        //transformer la bitmap en drawable(setViewValue)
         SimpleAdapter simpleAdapter = new SimpleAdapter(this,liste,R.layout.layout_chanson,from,to);
 
         simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
@@ -86,7 +91,7 @@ public class ArtisteList extends AppCompatActivity {
         });
 
 
-        // copier coller code du prof/quent
+
         //ligne 96/97/98 a moi de l<adapter a spoty
 
 
