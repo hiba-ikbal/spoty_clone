@@ -8,26 +8,26 @@ import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 import com.spotify.protocol.types.Track;
 
-import java.util.Vector;
-
 public class PlayerMusic {
+    private static PlayerMusic instance;
 
     private  String CLIENT_ID;
     private  String REDIRECT_URI;
     private SpotifyAppRemote mSpotifyAppRemote;
     boolean musicBound;
 
-    private PlayerMusic(Context context){
+    public PlayerMusic(Context context){
         this.CLIENT_ID = "833df7f639984a518117e9edab32a480";
         this.REDIRECT_URI = "com.example.spotifyclone://callback";
         this.musicBound = false;
         onStart(context);
-
-
     }
-
-
-
+    public static PlayerMusic getInstance(Context context)
+    {
+        if(instance == null)
+            instance = new PlayerMusic(context);
+        return instance;
+    }
     protected void onStart(Context context) {
 
         ConnectionParams connectionParams =
@@ -75,9 +75,29 @@ public class PlayerMusic {
 
         SpotifyAppRemote.disconnect(mSpotifyAppRemote);
     }
-    void ChangeMusic(){
-
+    public Artiste getArtiste(String id){
+        // creer un artiste tempo
+        Artiste artistetmp = new Artiste();
+        //get l artiste sur spoti
+        mSpotifyAppRemote.getPlayerApi().getPlayerState();
+        //set les valeurs de artistes tmp par arpp a spotify
+        //artistetmp.set...
+        return artistetmp;
     }
 
+
+    public void next() {
+    }
+
+    public boolean pause() {
+
+        return false;
+    }
+
+    public void prev() {
+    }
+
+    public void play() {
+    }
 }
 

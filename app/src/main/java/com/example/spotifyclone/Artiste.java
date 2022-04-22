@@ -2,6 +2,13 @@ package com.example.spotifyclone;
 
 import android.graphics.Bitmap;
 
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.protocol.types.Track;
+
 import java.time.Duration;
 
 public class Artiste {
@@ -9,13 +16,18 @@ public class Artiste {
     int duration;
     Bitmap image;
 
-    public Artiste(String nom,String Titre,String Album,int duration,Bitmap map){
-        this.nom=nom;
-        this.Titre=Titre;
-        this.Album=Album;
-        this.duration=duration;
-        image = map;
-    }
+
+    public Artiste(){}
+
+    public void setNom(String nom) {this.nom = nom;}
+
+    public void setAlbum(String album) {Album = album;}
+
+    public void setDuration(int duration) {this.duration = duration; }
+
+    public void setImage(Bitmap image) {this.image = image;}
+
+    public void setTitre(String titre) {Titre = titre;}
 
     public Bitmap getImage() {return image;}
     public String getNom(){return nom; }
@@ -23,4 +35,7 @@ public class Artiste {
     public String getAlbum(){return Album;}
     public int getDuration(){return duration;}
 
+    public boolean getPlaylist() {
+        return true;
+    }
 }

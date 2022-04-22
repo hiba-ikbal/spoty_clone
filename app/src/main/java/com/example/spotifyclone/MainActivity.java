@@ -21,13 +21,14 @@ import com.spotify.android.appremote.api.SpotifyAppRemote;
 import com.spotify.protocol.types.Track;
 
 public class MainActivity extends AppCompatActivity {
-    ImageButton next, prev,pause;
+    ImageButton next, prev,pause,play;
     ImageView cover;
     TextView Title,artist,duree;
     SeekBar sb;
     Ecouteur ec;
     Handler handler; //psq on aura besoin d<un thread
     Thread thread;
+    PlayerMusic playerMusic;
 
     Intent intentPlay;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         prev = findViewById(R.id.prevbtn);
         next = findViewById(R.id.nextbtn);
         pause = findViewById(R.id.stopbtn);
+        play = findViewById(R.id.playbtn);
         cover=findViewById(R.id.imgAlbum);
         Title=findViewById(R.id.Titre);
         artist = findViewById(R.id.Artiste);
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         pause.setOnClickListener(ec);
         next.setOnClickListener(ec);
         prev.setOnClickListener(ec);
+        play.setOnClickListener(ec);
 
         handler = new Handler();
         thread = new Thread();
@@ -60,16 +63,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+        playerMusic = new PlayerMusic(getApplicationContext());
+    }
 
-
-
-
-
-
-
-
-
-
+    @Override
+    protected void onStop(){
+        super.onStop();
+        playerMusic.onStop();
+    }
     private void connected() {
 
     }
@@ -80,9 +84,27 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.nextbtn:
+                    playerMusic.next();
+                    changeSong();
+                    break;
+                case R.id.prevbtn:
+                    playerMusic.prev();
+                    changeSong();
+                    break;
+                case R.id.stopbtn:
+                    playerMusic.pause();
+                    break;
+                case R.id.playbtn:
+                    playerMusic.play();
+                    break;
+
 
             }
 
         }
+    }
+
+    private void changeSong() {
+        //changer les infos de la chanson
     }
 }
